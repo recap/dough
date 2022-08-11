@@ -8,6 +8,11 @@ const router = createRouter({
       path: '/',
       name: 'root',
       component: App
+    },
+    {
+      path: '/dough/',
+      name: 'root',
+      component: App
     }
   ]
 })
