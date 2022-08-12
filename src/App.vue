@@ -1,41 +1,41 @@
 <template>
-<div class="w3-container w3-cell w3-padding-small">
-	<label class="labels">Final dough weight</label>
-	<input class="w3-input"  type="number" v-model="finalDoughWeight"  @change="calculate" @paste="calculate" @keyup="calculate">
-	<label class="labels">Hydration %</label>
-	<input class="w3-input" type="number" v-model="waterPercentage" @change="calculate" @paste="calculate" @keyup="calculate">
-	<label class="labels">Starter % </label>
-	<input class="w3-input" type="number" v-model="culturePercentage" @change="calculate" @paste="calculate" @keyup="calculate">
-	<label class="labels">Salt %</label>
-	<input class="w3-input" type="number" v-model="saltPercentage" @change="calculate" @paste="calculate" @keyup="calculate">
-	<label class="labels">Flour composition</label>
-	<input class="w3-input" type="text" v-model="flourComposition" @change="calculate" @paste="calculate" @keyup="calculate">
-	<label class="labels">Egg %</label>
-	<input class="w3-input"  type="number" v-model="eggPercentage" @change="calculate" @paste="calculate" @keyup="calculate">
-	<label class="labels">Butter %</label>
-	<input class="w3-input" type="number" v-model="butterPercentage" @change="calculate" @paste="calculate" @keyup="calculate">
-	<label class="labels">Sugar %</label>
-	<input class="w3-input"  type="number" v-model="sugarPercentage" @change="calculate" @paste="calculate" @keyup="calculate">
-</div>
+  <div class="w3-container w3-cell w3-padding-small">
+    <label class="labels">Final dough weight</label>
+    <input class="w3-input"  type="number" v-model="finalDoughWeight"  @change="calculate" @paste="calculate" @keyup="calculate">
+    <label class="labels">Hydration %</label>
+    <input class="w3-input" type="number" v-model="waterPercentage" @change="calculate" @paste="calculate" @keyup="calculate">
+    <label class="labels">Starter % </label>
+    <input class="w3-input" type="number" v-model="culturePercentage" @change="calculate" @paste="calculate" @keyup="calculate">
+    <label class="labels">Salt %</label>
+    <input class="w3-input" type="number" v-model="saltPercentage" @change="calculate" @paste="calculate" @keyup="calculate">
+    <label class="labels">Flour composition</label>
+    <input class="w3-input" type="text" v-model="flourComposition" @change="calculate" @paste="calculate" @keyup="calculate">
+    <label class="labels">Egg %</label>
+    <input class="w3-input"  type="number" v-model="eggPercentage" @change="calculate" @paste="calculate" @keyup="calculate">
+    <label class="labels">Butter %</label>
+    <input class="w3-input" type="number" v-model="butterPercentage" @change="calculate" @paste="calculate" @keyup="calculate">
+    <label class="labels">Sugar %</label>
+    <input class="w3-input"  type="number" v-model="sugarPercentage" @change="calculate" @paste="calculate" @keyup="calculate">
+  </div>
 
-<div class="w3-container w3-cell w3-padding-small">
-	<label class="labels">Total Flour </label>
-	<input class="w3-input w3-yellow"  type="number" v-model.lazy="flourWeight" @change="reverseCalculate" @paste="reverseCalculate" @keyup="reverseCalculate">
-	<label class="labels">Water </label>
-	<input class="w3-input w3-yellow" type="number" v-model.lazy="waterWeight">
-	<label class="labels">Starter  </label>
-	<input class="w3-input w3-yellow" type="number" v-model.lazy="cultureWeight">
-	<label class="labels">Salt </label>
-	<input class="w3-input w3-yellow" type="number" v-model.lazy="saltWeight">
-	<label class="labels">Flour composition</label>
-	<input class="w3-input w3-gray" type="text"  v-model="flourCompositionWeight"  readonly>
-	<label class="labels">Egg </label>
-	<input class="w3-input w3-yellow" type="number" v-model.lazy="eggWeight"> 
-	<label class="labels">Butter </label>
-	<input class="w3-input w3-yellow" type="number" v-model.lazy="butterWeight">
-	<label class="labels">Sugar </label>
-	<input class="w3-input w3-yellow" type="number" v-model.lazy="sugarWeight"> 
-</div>
+  <div class="w3-container w3-cell w3-padding-small">
+    <label class="labels">Total Flour </label>
+    <input class="w3-input w3-yellow"  type="number" v-model.lazy="flourWeight" @change="reverseCalculate" @paste="reverseCalculate" @keyup="reverseCalculate">
+    <label class="labels">Water </label>
+    <input class="w3-input w3-yellow" type="number" v-model.lazy="waterWeight">
+    <label class="labels">Starter  </label>
+    <input class="w3-input w3-yellow" type="number" v-model.lazy="cultureWeight">
+    <label class="labels">Salt </label>
+    <input class="w3-input w3-yellow" type="number" v-model.lazy="saltWeight">
+    <label class="labels">Flour composition</label>
+    <input class="w3-input w3-gray" type="text"  v-model="flourCompositionWeight"  readonly>
+    <label class="labels">Egg </label>
+    <input class="w3-input w3-yellow" type="number" v-model.lazy="eggWeight"> 
+    <label class="labels">Butter </label>
+    <input class="w3-input w3-yellow" type="number" v-model.lazy="butterWeight">
+    <label class="labels">Sugar </label>
+    <input class="w3-input w3-yellow" type="number" v-model.lazy="sugarWeight"> 
+  </div>
 </template>
 
 <style>
