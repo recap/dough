@@ -1,14 +1,14 @@
 <template>
   <div class="container w3-blue w3-cell">
-    <label class="labels">Final dough weight</label>
-    <input class="w3-input"  type="number" v-model="finalDoughWeight"  @change="calculate" @paste="calculate" @keyup="calculate">
+    <label class="labels">Desired dough weight gr</label>
+    <input class="w3-input"  type="number" v-model="desiredDoughWeight"  @change="calculate" @paste="calculate" @keyup="calculate">
     <label class="labels">Hydration %</label>
     <input class="w3-input" type="number" v-model="waterPercentage" @change="calculate" @paste="calculate" @keyup="calculate">
     <label class="labels">Starter % </label>
     <input class="w3-input" type="number" v-model="culturePercentage" @change="calculate" @paste="calculate" @keyup="calculate">
     <label class="labels">Salt %</label>
     <input class="w3-input" type="number" v-model="saltPercentage" @change="calculate" @paste="calculate" @keyup="calculate">
-    <label class="labels">Flour composition</label>
+    <label class="labels">Flour composition ratio %</label>
     <input class="w3-input" type="text" v-model="flourComposition" @change="calculate" @paste="calculate" @keyup="calculate">
     <label class="labels">Egg %</label>
     <input class="w3-input"  type="number" v-model="eggPercentage" @change="calculate" @paste="calculate" @keyup="calculate">
@@ -19,21 +19,21 @@
   </div>
 
   <div class= "container w3-red w3-cell">
-    <label class="labels">Total Flour </label>
+    <label class="labels">Total flour gr</label>
     <input class="w3-input w3-yellow"  type="number" v-model.lazy="flourWeight" @change="reverseCalculate" @paste="reverseCalculate" @keyup="reverseCalculate">
-    <label class="labels">Water </label>
+    <label class="labels">Water gr</label>
     <input class="w3-input w3-yellow" type="number" v-model.lazy="waterWeight">
-    <label class="labels">Starter  </label>
+    <label class="labels">Starter gr</label>
     <input class="w3-input w3-yellow" type="number" v-model.lazy="cultureWeight">
-    <label class="labels">Salt </label>
+    <label class="labels">Salt gr</label>
     <input class="w3-input w3-yellow" type="number" v-model.lazy="saltWeight">
-    <label class="labels">Flour composition</label>
+    <label class="labels">Flour composition weights gr</label>
     <input class="w3-input w3-gray" type="text"  v-model="flourCompositionWeight"  readonly>
-    <label class="labels">Egg </label>
+    <label class="labels">Egg gr</label>
     <input class="w3-input w3-yellow" type="number" v-model.lazy="eggWeight"> 
-    <label class="labels">Butter </label>
+    <label class="labels">Butter gr</label>
     <input class="w3-input w3-yellow" type="number" v-model.lazy="butterWeight">
-    <label class="labels">Sugar </label>
+    <label class="labels">Sugar gr</label>
     <input class="w3-input w3-yellow" type="number" v-model.lazy="sugarWeight"> 
   </div>
 </template>
@@ -51,8 +51,8 @@
 
 <script setup>
     import { ref, onMounted, computed } from 'vue'
-    const finalDoughWeight = ref(1200)
-
+    
+    const desiredDoughWeight = ref(1200)
     const waterPercentage = ref(75)
     const eggPercentage = ref(0)
     const culturePercentage = ref(20)
@@ -81,26 +81,21 @@
     const cultureWeight = computed(computedTemplate(culturePercentage))
     const flourCompositionWeight = ref('')
 
-
     function reverseCalculate() {
       const p = (v) => v.value / 100
-      finalDoughWeight.value = Math.round(flourWeight.value * (p(waterPercentage) + p(eggPercentage) + p(culturePercentage) + p(butterPercentage) + p(saltPercentage) + p(sugarPercentage)) + flourWeight.value)
+      desiredDoughWeight.value = Math.round(flourWeight.value * (p(waterPercentage) + p(eggPercentage) + p(culturePercentage) + p(butterPercentage) + p(saltPercentage) + p(sugarPercentage)) + flourWeight.value)
       calculate()
-      console.log(`final dough weight: ${finalDoughWeight.value}`)
     }
 
     function calculate() {
-      flourWeight.value = Math.round((finalDoughWeight.value * 100) / (waterPercentage.value + culturePercentage.value + saltPercentage.value + eggPercentage.value + butterPercentage.value + sugarPercentage.value + 100))
-      const sum = flourComposition.value.split(':').reduce((a,b) => parseInt(a) + parseInt(b), 0)
-      if(sum != 100) {
+      flourWeight.value = Math.round((desiredDoughWeight.value * 100) / (waterPercentage.value + culturePercentage.value + saltPercentage.value + eggPercentage.value + butterPercentage.value + sugarPercentage.value + 100))
+      if(100 != flourComposition.value.split(':').reduce((a,b) => parseInt(a) + parseInt(b), 0)) {
         flourCompositionWeight.value = "WRONG RATIOS!"
-      }else {
-        flourCompositionWeight.value = flourComposition.value
-                                            .split(':')
+      } else {
+        flourCompositionWeight.value = flourComposition.value.split(':')
                                             .map((f) => Math.round((f * flourWeight.value) / 100 ))
                                             .join(':')
-            }
-      
+      }
     }
 
     onMounted(() => {
