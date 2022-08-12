@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<title>Backward Dough Calculator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<style>
+.labels {
+	font-size: 12px;
+}
+</style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$( document ).ready(function() {
+    console.log( "ready!" );
+	$( "#fdw" ).on('change paste keyup', function(e) {
+		reverseCalc();
+	});
+	$( "#egg" ).on('change paste keyup', function(e) {
+		itemCalc("egg");
+	});
+	$( "#butter" ).on('change paste keyup', function(e) {
+		itemCalc("butter");
+	});
+	function reverseCalc() {
+		var _water = $("#_water").val() / 100;
+		var _starter = $("#_starter").val() / 100;
+		var _salt = $("#_salt").val() / 100;
+		var _egg = $("#_egg").val() / 100;
+		var _butter = $("#_butter").val() / 100;
+		var _sugar = $("#_sugar").val() / 100;
+		var _other1 = $("#_other1").val() / 100;
+		var _other2 = $("#_other2").val() / 100;
+		var _other3 = $("#_other3").val() / 100;
+		var tf = $("#fdw").val() * 1;
+
+		var _fdw = Math.round( (tf * (_water + _starter + _salt + _egg + _butter + _sugar)) + tf);
+		$("#_fdw").val(_fdw);
+		calc();
+
+	}
+
+	function itemCalc(item) {
+		var e = $("#"+item).val() * 1;
+		var _e = $("#_"+item).val() / 100;
+		var _fdw = $("#_fdw").val() * 1;
+
+		// _e*x = e
+		// x = e/_e
+		// tf = x
+		if(_e == 0) {
+			calc();
+			return;
+		}
+		var tf = Math.round(e/_e);
+		$("#fdw").val(tf);
+		reverseCalc();
+	}
+
+	function calc() {
+		//console.log("calculate")
+		var _fdw = $("#_fdw").val();
+		var _water = $("#_water").val() / 100;
+		var _starter = $("#_starter").val() / 100;
+		var _salt = $("#_salt").val() / 100;
+		//var _flour = $("#_flour").val() / 100;
+		var _flour = $("#_flour").val().split(':')
+		var _wholeFlour = $("#_wholeFlour").val() / 100;
+		var _ryeFlour = $("#_ryeFlour").val() / 100;
+		var _egg = $("#_egg").val() / 100;
+		var _butter = $("#_butter").val() / 100;
+		var _sugar = $("#_sugar").val() / 100;
+		var _other1 = $("#_other1").val() / 100;
+
+		var tf = Math.round(_fdw / (_water + _starter + _salt + _egg + _butter + _sugar + _other1 + 1));
+
+		var water = Math.round(_water * tf);
+		var starter = Math.round(_starter * tf);
+		var salt = Math.round(_salt * tf);
+		var egg = Math.round(_egg * tf);
+		var butter = Math.round(_butter * tf);
+		var sugar = Math.round(_sugar * tf);
+		var other1 = Math.round(_other1 * tf);
+
+
+		var flour = _flour.map(function(f) {
+			return Math.round((f * tf) / 100)
+		}).join(':')
+
+		//var flour = Math.round(_flour * tf);
+		//var wholeFlour = Math.round(_wholeFlour * tf);
+		//var ryeFlour = Math.round(_ryeFlour * tf);
+
+		$("#fdw").val(tf)
+		$("#water").val(water)
+		$("#starter").val(starter)
+		$("#salt").val(salt)
+		$("#flour").val(flour)
+		$("#egg").val(egg)
+		$("#butter").val(butter)
+		$("#sugar").val(sugar)
+		$("#other1").val(other1)
+
+		//$("#wholeFlour").val(wholeFlour)
+		//$("#ryeFlour").val(ryeFlour)
+
+		var sum = _flour.reduce(function(a,b){
+			return parseInt(a) + parseInt(b)
+		}, 0)
+		if(sum != 100) {
+			$("#flour").val("!" + flour)
+			$("#attn").html("ratios do not add up to 100")
+		} else {
+			$("#attn").html("")
+		}
+		//if((_flour + _wholeFlour + _ryeFlour) != 1) {
+		//	$("#flour").val("!" + flour)
+		//	$("#wholeFlour").val("!" + wholeFlour)
+		//	$("#ryeFlour").val("!" + ryeFlour)
+		//}
+	}
+	calc();
+	$( ".target" ).on('change paste keyup', function(e) {
+		calc();
+	});
+});
+</script>
+
+<body>
+<div class="w3-container w3-red w3-cell w3-padding-small">
+  <p>
+	<label class="labels">Final dough weight</label class="labels">
+	<input id="_fdw" class="w3-input target" type="text" value="1200">
+  </p>
+  <p>
+	<label class="labels">Hydration %</label class="labels">
+	<input id="_water" class="w3-input target" type="text" value="75">
+  </p>
+  <p>
+	<label class="labels">Starter % </label class="labels">
+	<input id="_starter" class="w3-input target" type="text" value="20">
+  </p>
+  <p>
+	<label class="labels">Salt %</label class="labels">
+	<input id="_salt" class="w3-input target" type="text" value="2">
+  </p>
+  <p>
+	<label class="labels">Flour composition</label class="labels">
+	<input id="_flour" class="w3-input target" type="text" value="60:35:5">
+	<label class="labels" id="attn"></label>
+  </p>
+  <p>
+	<label class="labels">Egg %</label class="labels">
+	<input id="_egg" class="w3-input target" type="text" value="0">
+  </p>
+  <p>
+	<label class="labels">Butter %</label class="labels">
+	<input id="_butter" class="w3-input target" type="text" value="0">
+  </p>
+  <p>
+	<label class="labels">Sugar %</label class="labels">
+	<input id="_sugar" class="w3-input target" type="text" value="0">
+  </p>
+  <p>
+	<label class="labels">Additional %</label class="labels">
+	<input id="_other1" class="w3-input target" type="text" value="0">
+  </p>
+</div>
+
+<div class="w3-container w3-green w3-cell w3-padding-small">
+  <p>
+	<label class="labels">Total Flour </label class="labels">
+	<input id="fdw" class="w3-input w3-cyan" type="text" value="">
+  </p>
+  <p>
+	<label class="labels">Water/Milk </label class="labels">
+	<input id="water" class="w3-input w3-yellow" type="text" value="" readonly>
+  </p>
+  <p>
+	<label class="labels">Starter  </label class="labels">
+	<input id="starter" class="w3-input w3-yellow" type="text" value="" readonly>
+  </p>
+  <p>
+	<label class="labels">Salt </label class="labels">
+	<input id="salt" class="w3-input w3-yellow" type="text" value="" readonly>
+  </p>
+  <p>
+	<label class="labels">Flour composition</label>
+	<input id="flour" class="w3-input w3-yellow" type="text" value="" readonly>
+  </p>
+  <p>
+	<label class="labels">Egg </label class="labels">
+	<input id="egg" class="w3-input w3-cyan" type="text" value="">
+  </p>
+  <p>
+	<label class="labels">Butter </label class="labels">
+	<input id="butter" class="w3-input w3-cyan" type="text" value="">
+  </p>
+  <p>
+	<label class="labels">Sugar </label class="labels">
+	<input id="sugar" class="w3-input w3-yellow" type="text" value="" readonly>
+  </p>
+  <p>
+	<label class="labels">Additional </label class="labels">
+	<input id="other1" class="w3-input w3-yellow" type="text" value="" readonly>
+  </p>
+</div>
+
+
+</body>
+</html> 
