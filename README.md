@@ -1,19 +1,4 @@
 # dough
+ A simple dough calculator for home bakers. Starting the the ammount of final dough weight, the calculator works out the wieghts of flour, water etc.
 
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
+ The calculator is available [here] (https://recap.github.io/dough/)
