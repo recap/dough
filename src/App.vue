@@ -1,5 +1,5 @@
 <template>
-  <div class="w3-container w3-cell w3-padding-small">
+  <div class="container w3-blue w3-cell">
     <label class="labels">Final dough weight</label>
     <input class="w3-input"  type="number" v-model="finalDoughWeight"  @change="calculate" @paste="calculate" @keyup="calculate">
     <label class="labels">Hydration %</label>
@@ -18,7 +18,7 @@
     <input class="w3-input"  type="number" v-model="sugarPercentage" @change="calculate" @paste="calculate" @keyup="calculate">
   </div>
 
-  <div class="w3-container w3-cell w3-padding-small">
+  <div class= "container w3-red w3-cell">
     <label class="labels">Total Flour </label>
     <input class="w3-input w3-yellow"  type="number" v-model.lazy="flourWeight" @change="reverseCalculate" @paste="reverseCalculate" @keyup="reverseCalculate">
     <label class="labels">Water </label>
@@ -39,9 +39,14 @@
 </template>
 
 <style>
-.labels {
-	font-size: 12px;
-}
+  .labels {
+    font-size: 12px;
+  }
+  .container {
+    padding-right: 25px;
+    padding-left: 10px;
+    padding-bottom: 10px;
+  }
 </style>
 
 <script setup>
