@@ -64,7 +64,7 @@
     const saltPercentage = ref(2)
     const sugarPercentage = ref(0)
     const flourComposition = ref('40:30:30')
-    const flourTemperature = ref(15)
+    const flourTemperature = ref(17)
 
     const flourWeight = ref(0)
     const computedTemplate = (refObject) => {
