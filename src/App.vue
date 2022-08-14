@@ -16,6 +16,8 @@
     <input class="w3-input" type="number" v-model="butterPercentage" @change="calculate" @paste="calculate" @keyup="calculate">
     <label class="labels">Sugar %</label>
     <input class="w3-input"  type="number" v-model="sugarPercentage" @change="calculate" @paste="calculate" @keyup="calculate">
+    <label class="labels">Flour temperature &#8451;</label>
+    <input class="w3-input"  type="number" v-model="flourTemperature" @change="calculate" @paste="calculate" @keyup="calculate">
   </div>
 
   <div class= "container w3-red w3-cell">
@@ -35,6 +37,8 @@
     <input class="w3-input w3-yellow" type="number" v-model.lazy="butterWeight">
     <label class="labels">Sugar gr</label>
     <input class="w3-input w3-yellow" type="number" v-model.lazy="sugarWeight"> 
+    <label class="labels">Water temperature &#8451;</label>
+    <input class="w3-input w3-gray" type="number" v-model="waterTemperature" readonly> 
   </div>
 </template>
 
@@ -60,6 +64,7 @@
     const saltPercentage = ref(2)
     const sugarPercentage = ref(0)
     const flourComposition = ref('40:30:30')
+    const flourTemperature = ref(15)
 
     const flourWeight = ref(0)
     const computedTemplate = (refObject) => {
@@ -79,7 +84,38 @@
     const butterWeight = computed(computedTemplate(butterPercentage))
     const sugarWeight = computed(computedTemplate(sugarPercentage))
     const cultureWeight = computed(computedTemplate(culturePercentage))
-    const flourCompositionWeight = ref('')
+    const waterTemperature = computed({
+        get() {
+          // Calculate water temperature so that end dough is 24 deg celcius.
+          // tf = (m1 cp1 t1 + m2 cp2 t2 + .... + mn cpn tn) / (m1 cp1 + m2 cp2 + .... + mn cpn)
+          // where
+          // tf = final mixed temperature (oC)
+          // m = mass of substance (kg)
+          // cp = specific heat of substance (J/kgoC)
+          // t = temperature of substance (oC)
+          // cp for water =   4186J/kgoC, cp for flour is 1590J/kgoC
+
+          const tf = 24
+          const cp2 = 1590
+          const m2 = flourWeight.value + cultureWeight.value
+          const t2 = flourTemperature.value
+          const cp1 = 4186
+          const m1 = waterWeight.value
+          const t1 = (tf*m1*cp1 + m2*cp2*(tf - t2)) / (m1*cp1)
+          return Math.round(t1)
+        }
+    })
+    const flourCompositionWeight = computed({
+        get(){
+          if(100 != flourComposition.value.split(':').reduce((a,b) => parseInt(a) + parseInt(b), 0)) {
+            return "WRONG RATIOS!"
+          } else {
+            return flourComposition.value.split(':')
+                                                .map((f) => Math.round((f * flourWeight.value) / 100 ))
+                                                .join(':')
+          }
+        }
+    })
 
     function reverseCalculate() {
       const p = (v) => v.value / 100
@@ -89,13 +125,6 @@
 
     function calculate() {
       flourWeight.value = Math.round((desiredDoughWeight.value * 100) / (waterPercentage.value + culturePercentage.value + saltPercentage.value + eggPercentage.value + butterPercentage.value + sugarPercentage.value + 100))
-      if(100 != flourComposition.value.split(':').reduce((a,b) => parseInt(a) + parseInt(b), 0)) {
-        flourCompositionWeight.value = "WRONG RATIOS!"
-      } else {
-        flourCompositionWeight.value = flourComposition.value.split(':')
-                                            .map((f) => Math.round((f * flourWeight.value) / 100 ))
-                                            .join(':')
-      }
     }
 
     onMounted(() => {
