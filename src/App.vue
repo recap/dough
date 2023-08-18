@@ -57,7 +57,7 @@
     import { ref, onMounted, computed } from 'vue'
     
     const desiredDoughWeight = ref(1200)
-    const waterPercentage = ref(75)
+    const waterPercentage = ref(70)
     const eggPercentage = ref(0)
     const culturePercentage = ref(20)
     const butterPercentage = ref(0)
